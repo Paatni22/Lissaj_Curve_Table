@@ -1,0 +1,89 @@
+var angle
+var w = 100;
+
+function setup() {
+  createCanvas(1200, 600);
+  angle = -PI;
+}
+var d = w - 20;
+var r = d / 2;
+
+var xpoints = [];
+var ypoints = [];
+
+var curvePx = [];
+var curvePy = [];
+
+function draw() {
+  noFill();
+  stroke(255);
+  strokeWeight(2);
+  var cols = width / w - 1;
+  background(0);
+
+  if (angle > 3 * PI) {
+    angle = -PI;
+
+
+    curvePx.splice(0, curvePx.length);
+    curvePy.splice(0, curve.length);
+
+  }
+
+  for (i = 0; i < cols; i++) {
+    cx = i * w + w / 2 + w;
+    cy = w / 2;
+    ellipse(cx, cy, d, d);
+    xpoints[i] = cx + r * cos(angle * (i + 0.5));
+    hy = cy + r * sin(angle * (i + 0.5));
+
+    push();
+    strokeWeight(15);
+    stroke(255);
+    point(xpoints[i], hy, 8);
+    pop();
+    push();
+    strokeWeight(2);
+    stroke(100);
+    line(xpoints[i], hy, xpoints[i], height);
+    pop();
+
+
+    ellipse(cy, cx, d, d);
+    vx = cy + r * cos(angle * (i + 0.5));
+    ypoints[i] = cx + r * sin(angle * (i + 0.5));
+
+    push();
+    strokeWeight(15);
+    stroke(255);
+    point(vx, ypoints[i], 8);
+    pop();
+    push();
+    strokeWeight(2);
+    stroke(100);
+    line(vx, ypoints[i], width, ypoints[i]);
+    pop();
+
+
+  }
+  push();
+  strokeWeight(2);
+
+  for (x = 0; x < cols; x++)
+    for (y = 0; y < cols; y++) {
+      push();
+      strokeWeight(10);
+      stroke(0, 200, 250);
+      point(xpoints[x], ypoints[y]);
+      pop();
+      curvePx.push(xpoints[x]);
+      curvePy.push(ypoints[y]);
+    }
+
+  for (x = 0; x < curvePx.length; x++)
+    point(curvePx[x], curvePy[x]);
+
+  pop();
+  angle += 0.015;
+
+}
